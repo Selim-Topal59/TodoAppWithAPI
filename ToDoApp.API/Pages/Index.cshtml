@@ -1,0 +1,123 @@
+﻿@page
+@using TodoApp.Entities.Entities
+@model ToDoApp.API.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<section class="vh-100" style="background-color: dimgrey;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card rounded-3">
+                    <div class="card-body p-4">
+
+                        <h4 class="text-center my-3 pb-3">To Do List</h4>
+
+                        <form method="post" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
+                            <div class="col-12">
+                                <div data-mdb-input-init class="form-outline">
+                                    <label class="form-label" for="form1">Enter The Title </label>
+                                    <input type="text" name="Title" id="form1" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div data-mdb-input-init class="form-outline">
+                                    <label class="form-label" for="form1">Enter The Message </label>
+                                    <input type="text" name="Message" id="form1" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark ms-1">Save</button>
+                            </div>
+                        </form>
+                        <table class="table mb-4">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Message</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (TodoItem todoitem in Model.ToDoItems)
+                                {
+                                    <tr>
+                                        <th scope="row">@todoitem.Id</th>
+                                        <td>@todoitem.Title</td>
+                                        <td>@todoitem.Message</td>
+                                        <td>
+                                            <form method="post" asp-page-handler="Delete" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger" asp-route-id="@todoitem.Id">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                            <form method="post" asp-page-handler="Finished" data-mdb-button-init data-mdb-ripple-init class="btn btn-success ms-1" asp-route-id="@todoitem.Id">
+                                                <button type="submit" class="btn btn-success ms-1">Finished</button>
+                                            </form>
+                                            <form data-mdb-button-init data-mdb-ripple-init class="btn btn-info ms-1">
+                                                <button type="button" class="btn btn-info ms-1" data-bs-toggle="modal" data-bs-target="#updateModal" data-id="@todoitem.Id" data-title="@todoitem.Title" data-message="@todoitem.Message">
+                                                Update
+                                            </button>
+                                            </form>
+                                        </td>   
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Todo Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" asp-page-handler="Update">
+                        <input type="hidden" id="updateId" name="id" />
+                        <div class="form-group">
+                            <label for="updateTitle">Title</label>
+                            <input type="text" class="form-control" id="updateTitle" name="title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="updateMessage">Message</label>
+                            <input type="text" class="form-control" id="updateMessage" name="message" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var updateModal = document.getElementById('updateModal');
+            updateModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget; // Update butonu
+                var id = button.getAttribute('data-id'); // TodoItem Id
+                var title = button.getAttribute('data-title'); // TodoItem Title
+                var message = button.getAttribute('data-message'); // TodoItem Message
+
+                // Form alanlarını doldur
+                var modalIdInput = updateModal.querySelector('#updateId');
+                var modalTitleInput = updateModal.querySelector('#updateTitle');
+                var modalMessageInput = updateModal.querySelector('#updateMessage');
+
+                modalIdInput.value = id;
+                modalTitleInput.value = title;
+                modalMessageInput.value = message;
+            });
+        });
+    </script>
+}

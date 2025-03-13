@@ -1,0 +1,40 @@
+﻿@page 
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1>To-Do List</h1>
+<input type="text" id="new-task" placeholder="Yeni görev ekldde" />
+<button onclick="addTask()">Ekle</button>
+<ul id="task-list"></ul>
+
+@section Scripts {
+    <script>
+        async function getTasks() {
+            const response = await fetch('https://localhost:5001/api/todo');
+            const tasks = await response.json();
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.textContent = task.title;
+                taskList.appendChild(li);
+            });
+        }
+
+
+        async function addTask() {
+            const newTask = document.getElementById('new-task').value;
+            await fetch('https://localhost:5001/api/todo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title: newTask, isCompleted: false }),
+            });
+            getTasks();
+        }
+
+        document.addEventListener('DOMContentLoaded', getTasks);
+    </script>
+}
