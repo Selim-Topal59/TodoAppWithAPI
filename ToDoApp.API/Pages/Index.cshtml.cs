@@ -69,8 +69,6 @@ namespace ToDoApp.API.Pages
             var data = _context.TodoItems.FirstOrDefault(x => x.Id == id);
             if (data != null)
             {
-                // Öðeyi tamamlandý olarak iþaretleme veya baþka bir iþlem yapma
-                // Örneðin: data.IsCompleted = true;
                 data.IsActive = false;
                 _context.SaveChanges();
             }

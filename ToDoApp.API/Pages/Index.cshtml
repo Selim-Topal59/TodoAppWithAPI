@@ -5,31 +5,34 @@
     ViewData["Title"] = "Home page";
 }
 <section class="vh-100" style="background-color: dimgrey;">
+    <div>
+    </div>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col col-lg-9 col-xl-7">
+                <h1 class="text-center my-3 pb-3" style="font-family: Georgia, serif;"> To Do App</h1>
                 <div class="card rounded-3">
                     <div class="card-body p-4">
 
-                        <h4 class="text-center my-3 pb-3">To Do List</h4>
+                        <h4 class="text-center my-3 pb-3" >To Do List</h4>
 
                         <form method="post" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
                             <div class="col-12">
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="form1">Enter The Title </label>
-                                    <input type="text" name="Title" id="form1" class="form-control" />
+                                    <input type="text" name="Title" id="form1" class="form-control"  required/>
 
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="form1">Enter The Message </label>
-                                    <input type="text" name="Message" id="form1" class="form-control" />
+                                    <input type="text" name="Message" id="form1" class="form-control" required />
 
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark ms-1">Save</button>
+                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark ms-1" style="margin-top:5px">Save</button>
                             </div>
                         </form>
                         <table class="table mb-4">
@@ -65,7 +68,6 @@
                                 }
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -104,12 +106,10 @@
         document.addEventListener('DOMContentLoaded', function () {
             var updateModal = document.getElementById('updateModal');
             updateModal.addEventListener('show.bs.modal', function (event) {
-                var button = event.relatedTarget; // Update butonu
-                var id = button.getAttribute('data-id'); // TodoItem Id
-                var title = button.getAttribute('data-title'); // TodoItem Title
-                var message = button.getAttribute('data-message'); // TodoItem Message
-
-                // Form alanlarını doldur
+                var button = event.relatedTarget; 
+                var id = button.getAttribute('data-id'); 
+                var title = button.getAttribute('data-title');
+                var message = button.getAttribute('data-message'); 
                 var modalIdInput = updateModal.querySelector('#updateId');
                 var modalTitleInput = updateModal.querySelector('#updateTitle');
                 var modalMessageInput = updateModal.querySelector('#updateMessage');
